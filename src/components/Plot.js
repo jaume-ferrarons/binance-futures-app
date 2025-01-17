@@ -9,10 +9,22 @@ const Plot = ({ historicalPrices, selectedCrypto }) => {
     labels: historicalPrices.map((price) => price.date),
     datasets: [
       {
-        label: `${selectedCrypto} Prices`,
-        data: historicalPrices.map((price) => price.value),
+        label: `${selectedCrypto} Perpetual Prices`,
+        data: historicalPrices.map((price) => price.perpetual),
         borderColor: 'rgba(75, 192, 192, 1)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
+      },
+      {
+        label: `${selectedCrypto} Quarterly Prices`,
+        data: historicalPrices.map((price) => price.quarterly),
+        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      },
+      {
+        label: `${selectedCrypto} Biquarterly Prices`,
+        data: historicalPrices.map((price) => price.biquarterly),
+        borderColor: 'rgba(54, 162, 235, 1)',
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
       },
     ],
   };
