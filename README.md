@@ -1,33 +1,38 @@
 # Binance Futures Price Comparison Web App
 
-This project is a web application built using React that connects to the Binance API to fetch the prices of future contracts for BTC or ETH. It compares the prices for the perpetual, quarterly, and biquarterly futures and computes the spread between them. Additionally, it provides a plot with the prices from the last n days, where n can be selected from a dropdown.
+This project is a web application built using React that connects to the Binance API to get the price of BTC or ETH futures contracts. It compares the prices for perpetual, quarterly, and biquarterly futures, computes the spread between them, and plots the prices from the last n days (n to be selected from a dropdown).
 
-## Setup and Run
-
-To set up and run the project, follow these steps:
+## Setup and Installation
 
 1. Clone the repository:
    ```
    git clone https://github.com/githubnext/workspace-blank.git
-   ```
-2. Navigate to the project directory:
-   ```
    cd workspace-blank
    ```
-3. Install the dependencies:
+
+2. Install the dependencies:
    ```
    npm install
    ```
-4. Start the development server:
+
+3. Start the development server:
    ```
    npm start
    ```
 
-The application should now be running on `http://localhost:3000`.
+## Usage
 
-## Using the Web App
+1. Open the web app in your browser:
+   ```
+   http://localhost:3000
+   ```
 
-1. Select the cryptocurrency (BTC or ETH) from the dropdown menu.
-2. The app will fetch and display the prices of the perpetual, quarterly, and biquarterly futures contracts.
-3. The spread between the future contracts will be computed and displayed.
-4. Select the number of days from the dropdown to view the historical prices plot.
+2. Select the cryptocurrency (BTC or ETH) from the dropdown.
+
+3. The app will fetch and display the prices for perpetual, quarterly, and biquarterly futures contracts.
+
+4. The app will compute and display the spread between the futures contracts.
+
+5. Select the number of days (n) from the dropdown to plot the prices from the last n days.
+
+6. The app will fetch and display the historical prices for the selected number of days.

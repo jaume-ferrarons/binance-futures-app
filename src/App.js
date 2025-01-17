@@ -5,35 +5,23 @@ import { fetchFutureContractPrices, fetchHistoricalPrices } from './api/binance'
 
 const App = () => {
   const [selectedCrypto, setSelectedCrypto] = useState('BTC');
-  const [futurePrices, setFuturePrices] = useState({});
+  const [futurePrices, setFuturePrices] = useState({ perpetual: 0, quarterly: 0, biquarterly: 0 });
   const [historicalPrices, setHistoricalPrices] = useState([]);
-  const [days, setDays] = useState(7);
+  const [selectedDays, setSelectedDays] = useState(7);
 
   const handleCryptoChange = (event) => {
     setSelectedCrypto(event.target.value);
   };
 
   const handleDaysChange = (event) => {
-    setDays(event.target.value);
+    setSelectedDays(event.target.value);
+    fetchAndSetHistoricalPrices(event.target.value);
   };
 
-  useEffect(() => {
-    const fetchPrices = async () => {
-      const prices = await fetchFutureContractPrices(selectedCrypto);
-      setFuturePrices(prices);
-    };
-
-    fetchPrices();
-  }, [selectedCrypto]);
-
-  useEffect(() => {
-    const fetchPrices = async () => {
-      const prices = await fetchHistoricalPrices(selectedCrypto, days);
-      setHistoricalPrices(prices);
-    };
-
-    fetchPrices();
-  }, [selectedCrypto, days]);
+  const fetchPrices = async () => {
+    const prices = await fetchFutureContractPrices(selectedCrypto);
+    setFuturePrices(prices);
+  };
 
   const computeSpread = (prices) => {
     const { perpetual, quarterly, biquarterly } = prices;
@@ -44,7 +32,15 @@ const App = () => {
     };
   };
 
-  const spread = computeSpread(futurePrices);
+  const fetchAndSetHistoricalPrices = async (days) => {
+    const prices = await fetchHistoricalPrices(selectedCrypto, days);
+    setHistoricalPrices(prices);
+  };
+
+  useEffect(() => {
+    fetchPrices();
+    fetchAndSetHistoricalPrices(selectedDays);
+  }, [selectedCrypto, selectedDays]);
 
   return (
     <div>
@@ -62,13 +58,13 @@ const App = () => {
       </div>
       <div>
         <h2>Spread</h2>
-        <p>Perpetual - Quarterly: {spread.perpetualQuarterly}</p>
-        <p>Perpetual - Biquarterly: {spread.perpetualBiquarterly}</p>
-        <p>Quarterly - Biquarterly: {spread.quarterlyBiquarterly}</p>
+        <p>Perpetual - Quarterly: {computeSpread(futurePrices).perpetualQuarterly}</p>
+        <p>Perpetual - Biquarterly: {computeSpread(futurePrices).perpetualBiquarterly}</p>
+        <p>Quarterly - Biquarterly: {computeSpread(futurePrices).quarterlyBiquarterly}</p>
       </div>
       <Dropdown
         options={[7, 14, 30, 90]}
-        selectedValue={days}
+        selectedValue={selectedDays}
         onChange={handleDaysChange}
       />
       <Plot historicalPrices={historicalPrices} selectedCrypto={selectedCrypto} />

@@ -1,31 +1,32 @@
 import axios from 'axios';
 
-const BASE_URL = 'https://fapi.binance.com';
+const BINANCE_API_URL = 'https://fapi.binance.com/fapi/v1';
 
-export const fetchFutureContractPrices = async (symbol) => {
+export const fetchFutureContractPrices = async (crypto) => {
   try {
-    const response = await axios.get(`${BASE_URL}/fapi/v1/premiumIndex?symbol=${symbol}`);
-    const data = response.data;
+    const response = await axios.get(`${BINANCE_API_URL}/premiumIndex?symbol=${crypto}USDT`);
+    const { markPrice, lastFundingRate } = response.data;
     return {
-      perpetual: data[0].markPrice,
-      quarterly: data[1].markPrice,
-      biquarterly: data[2].markPrice,
+      perpetual: markPrice,
+      quarterly: markPrice * (1 + lastFundingRate),
+      biquarterly: markPrice * (1 + 2 * lastFundingRate),
     };
   } catch (error) {
     console.error('Error fetching future contract prices:', error);
-    return {};
+    return { perpetual: 0, quarterly: 0, biquarterly: 0 };
   }
 };
 
-export const fetchHistoricalPrices = async (symbol, days) => {
+export const fetchHistoricalPrices = async (crypto, days) => {
   try {
     const endTime = Date.now();
     const startTime = endTime - days * 24 * 60 * 60 * 1000;
-    const response = await axios.get(`${BASE_URL}/fapi/v1/klines?symbol=${symbol}&interval=1d&startTime=${startTime}&endTime=${endTime}`);
-    const data = response.data;
-    return data.map((item) => ({
-      date: new Date(item[0]).toLocaleDateString(),
-      value: item[4],
+    const response = await axios.get(
+      `${BINANCE_API_URL}/klines?symbol=${crypto}USDT&interval=1d&startTime=${startTime}&endTime=${endTime}`
+    );
+    return response.data.map((price) => ({
+      date: new Date(price[0]).toLocaleDateString(),
+      value: price[4],
     }));
   } catch (error) {
     console.error('Error fetching historical prices:', error);
