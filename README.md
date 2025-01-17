@@ -1,2 +1,1 @@
-# binance-futures-app
-A web app to fetch and display Binance futures prices
+This repository is empty. Any task executed on it should be considered a new capability and needs to be created.
