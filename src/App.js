@@ -42,6 +42,15 @@ const App = () => {
     fetchAndSetHistoricalPrices(selectedDays);
   }, [selectedCrypto, selectedDays]);
 
+  const formatPrice = (price) => {
+    return price.toFixed(2);
+  };
+
+  const formatChange = (current, previous) => {
+    const change = ((current - previous) / previous) * 100;
+    return change.toFixed(2);
+  };
+
   return (
     <div>
       <h1>Binance Futures Price Comparison</h1>
@@ -52,15 +61,15 @@ const App = () => {
       />
       <div>
         <h2>Future Contract Prices</h2>
-        <p>Perpetual: {futurePrices.perpetual}</p>
-        <p>Quarterly: {futurePrices.quarterly}</p>
-        <p>Biquarterly: {futurePrices.biquarterly}</p>
+        <p>Perpetual: {formatPrice(futurePrices.perpetual)} ({formatChange(futurePrices.perpetual, futurePrices.quarterly)}%)</p>
+        <p>Quarterly: {formatPrice(futurePrices.quarterly)} ({formatChange(futurePrices.quarterly, futurePrices.biquarterly)}%)</p>
+        <p>Biquarterly: {formatPrice(futurePrices.biquarterly)} ({formatChange(futurePrices.biquarterly, futurePrices.perpetual)}%)</p>
       </div>
       <div>
         <h2>Spread</h2>
-        <p>Perpetual - Quarterly: {computeSpread(futurePrices).perpetualQuarterly}</p>
-        <p>Perpetual - Biquarterly: {computeSpread(futurePrices).perpetualBiquarterly}</p>
-        <p>Quarterly - Biquarterly: {computeSpread(futurePrices).quarterlyBiquarterly}</p>
+        <p>Perpetual - Quarterly: {formatPrice(computeSpread(futurePrices).perpetualQuarterly)}</p>
+        <p>Perpetual - Biquarterly: {formatPrice(computeSpread(futurePrices).perpetualBiquarterly)}</p>
+        <p>Quarterly - Biquarterly: {formatPrice(computeSpread(futurePrices).quarterlyBiquarterly)}</p>
       </div>
       <Dropdown
         options={[7, 14, 30, 90]}
