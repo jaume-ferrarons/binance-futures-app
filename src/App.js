@@ -26,9 +26,18 @@ const App = () => {
   const computeSpread = (prices) => {
     const { perpetual, quarterly, biquarterly } = prices;
     return {
-      perpetualQuarterly: perpetual - quarterly,
-      perpetualBiquarterly: perpetual - biquarterly,
-      quarterlyBiquarterly: quarterly - biquarterly,
+      perpetualQuarterly: {
+        value: perpetual - quarterly,
+        percentage: ((perpetual - quarterly) / perpetual) * 100,
+      },
+      perpetualBiquarterly: {
+        value: perpetual - biquarterly,
+        percentage: ((perpetual - biquarterly) / perpetual) * 100,
+      },
+      quarterlyBiquarterly: {
+        value: quarterly - biquarterly,
+        percentage: ((quarterly - biquarterly) / quarterly) * 100,
+      },
     };
   };
 
@@ -43,7 +52,7 @@ const App = () => {
   }, [selectedCrypto, selectedDays]);
 
   const formatPrice = (price) => {
-    return Number(price).toFixed(2);
+    return `$${Number(price).toFixed(2)}`;
   };
 
   const formatChange = (current, previous) => {
@@ -61,15 +70,15 @@ const App = () => {
       />
       <div>
         <h2>Future Contract Prices</h2>
-        <p>Perpetual: {formatPrice(futurePrices.perpetual)} ({formatChange(futurePrices.perpetual, futurePrices.quarterly)}%)</p>
-        <p>Quarterly: {formatPrice(futurePrices.quarterly)} ({formatChange(futurePrices.quarterly, futurePrices.biquarterly)}%)</p>
+        <p>Perpetual: {formatPrice(futurePrices.perpetual)}</p>
+        <p>Quarterly: {formatPrice(futurePrices.quarterly)} ({formatChange(futurePrices.quarterly, futurePrices.perpetual)}%)</p>
         <p>Biquarterly: {formatPrice(futurePrices.biquarterly)} ({formatChange(futurePrices.biquarterly, futurePrices.perpetual)}%)</p>
       </div>
       <div>
         <h2>Spread</h2>
-        <p>Perpetual - Quarterly: {formatPrice(computeSpread(futurePrices).perpetualQuarterly)}</p>
-        <p>Perpetual - Biquarterly: {formatPrice(computeSpread(futurePrices).perpetualBiquarterly)}</p>
-        <p>Quarterly - Biquarterly: {formatPrice(computeSpread(futurePrices).quarterlyBiquarterly)}</p>
+        <p>Perpetual - Quarterly: {formatPrice(computeSpread(futurePrices).perpetualQuarterly.value)} ({computeSpread(futurePrices).perpetualQuarterly.percentage.toFixed(2)}%)</p>
+        <p>Perpetual - Biquarterly: {formatPrice(computeSpread(futurePrices).perpetualBiquarterly.value)} ({computeSpread(futurePrices).perpetualBiquarterly.percentage.toFixed(2)}%)</p>
+        <p>Quarterly - Biquarterly: {formatPrice(computeSpread(futurePrices).quarterlyBiquarterly.value)} ({computeSpread(futurePrices).quarterlyBiquarterly.percentage.toFixed(2)}%)</p>
       </div>
       <Dropdown
         options={[7, 14, 30, 90]}
