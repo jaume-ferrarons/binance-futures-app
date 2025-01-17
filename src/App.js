@@ -43,7 +43,7 @@ const App = () => {
   }, [selectedCrypto, selectedDays]);
 
   const formatPrice = (price) => {
-    return price.toFixed(2);
+    return Number(price).toFixed(2);
   };
 
   const formatChange = (current, previous) => {
