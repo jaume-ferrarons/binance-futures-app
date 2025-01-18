@@ -14,6 +14,7 @@ const App = () => {
   const [selectedFrequency, setSelectedFrequency] = useState('1d');
   const [isLoading, setIsLoading] = useState(false);
   const [isSpread, setIsSpread] = useState(false);
+  const [lastRefreshed, setLastRefreshed] = useState(null);
 
   const handleCryptoChange = (event) => {
     setSelectedCrypto(event.target.value);
@@ -33,6 +34,7 @@ const App = () => {
     setIsLoading(true);
     const prices = await fetchFutureContractPrices(selectedCrypto);
     setFuturePrices(prices);
+    setLastRefreshed(new Date().toLocaleString());
     setIsLoading(false);
   };
 
@@ -79,9 +81,12 @@ const App = () => {
     <Container className="main-container">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Typography variant="h4" className="heading">Binance Futures Price Comparison</Typography>
-        <IconButton color="primary" onClick={() => { fetchPrices(); fetchAndSetHistoricalPrices(selectedDays, selectedFrequency); }}>
-          <RefreshIcon />
-        </IconButton>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton color="primary" onClick={() => { fetchPrices(); fetchAndSetHistoricalPrices(selectedDays, selectedFrequency); }}>
+            <RefreshIcon />
+          </IconButton>
+          {lastRefreshed && <Typography variant="body2" className="last-refreshed">Last refreshed: {lastRefreshed}</Typography>}
+        </div>
       </div>
       <FormControl className="dropdown">
         <InputLabel>Cryptocurrency</InputLabel>
