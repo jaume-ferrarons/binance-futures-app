@@ -8,6 +8,7 @@ const App = () => {
   const [futurePrices, setFuturePrices] = useState({ perpetual: 0, quarterly: 0, biquarterly: 0 });
   const [historicalPrices, setHistoricalPrices] = useState([]);
   const [selectedDays, setSelectedDays] = useState(7);
+  const [selectedFrequency, setSelectedFrequency] = useState('1d');
 
   const handleCryptoChange = (event) => {
     setSelectedCrypto(event.target.value);
@@ -15,7 +16,12 @@ const App = () => {
 
   const handleDaysChange = (event) => {
     setSelectedDays(event.target.value);
-    fetchAndSetHistoricalPrices(event.target.value);
+    fetchAndSetHistoricalPrices(event.target.value, selectedFrequency);
+  };
+
+  const handleFrequencyChange = (event) => {
+    setSelectedFrequency(event.target.value);
+    fetchAndSetHistoricalPrices(selectedDays, event.target.value);
   };
 
   const fetchPrices = async () => {
@@ -41,15 +47,15 @@ const App = () => {
     };
   };
 
-  const fetchAndSetHistoricalPrices = async (days) => {
-    const prices = await fetchHistoricalPrices(selectedCrypto, days);
+  const fetchAndSetHistoricalPrices = async (days, frequency) => {
+    const prices = await fetchHistoricalPrices(selectedCrypto, days, frequency);
     setHistoricalPrices(prices);
   };
 
   useEffect(() => {
     fetchPrices();
-    fetchAndSetHistoricalPrices(selectedDays);
-  }, [selectedCrypto, selectedDays]);
+    fetchAndSetHistoricalPrices(selectedDays, selectedFrequency);
+  }, [selectedCrypto, selectedDays, selectedFrequency]);
 
   const formatPrice = (price) => {
     return `$${Number(price).toFixed(2)}`;
@@ -84,6 +90,11 @@ const App = () => {
         options={[7, 14, 30, 90]}
         selectedValue={selectedDays}
         onChange={handleDaysChange}
+      />
+      <Dropdown
+        options={['1h', '6h', '1d']}
+        selectedValue={selectedFrequency}
+        onChange={handleFrequencyChange}
       />
       <Plot historicalPrices={historicalPrices} selectedCrypto={selectedCrypto} />
     </div>

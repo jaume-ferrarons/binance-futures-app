@@ -39,6 +39,16 @@ const Plot = ({ historicalPrices, selectedCrypto }) => {
         display: true,
         text: `${selectedCrypto} Prices Over Time`,
       },
+      tooltip: {
+        callbacks: {
+          label: function (context) {
+            const label = context.dataset.label || '';
+            const value = context.raw || '';
+            const date = context.label || '';
+            return `${label}: ${value} (Date: ${date})`;
+          },
+        },
+      },
     },
   };
 
