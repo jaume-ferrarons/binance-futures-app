@@ -50,17 +50,51 @@ export const fetchFutureContractPrices = async (crypto) => {
   }
 };
 
-export const fetchHistoricalPrices = async (crypto, days) => {
+export const fetchHistoricalPrices = async (crypto, days, frequency) => {
   try {
     const endTime = Date.now();
     const startTime = endTime - days * 24 * 60 * 60 * 1000;
-    const response = await axios.get(
-      `${BINANCE_API_URL}/klines?symbol=${crypto}USDT&interval=1d&startTime=${startTime}&endTime=${endTime}`
+
+    const interval = frequency || '1d';
+
+    const perpetualResponse = await axios.get(
+      `${BINANCE_API_URL}/klines?symbol=${crypto}USDT&interval=${interval}&startTime=${startTime}&endTime=${endTime}`
     );
-    return response.data.map((price) => ({
+    const perpetualPrices = perpetualResponse.data.map((price) => ({
       date: new Date(price[0]).toLocaleDateString(),
-      value: price[4],
+      perpetual: price[4],
     }));
+
+    const { quarterly, biquarterly } = await getQuarterlyAndBiquarterlyNames(crypto);
+
+    const quarterlyResponse = quarterly
+      ? await axios.get(
+          `${BINANCE_API_URL}/klines?symbol=${quarterly}&interval=${interval}&startTime=${startTime}&endTime=${endTime}`
+        )
+      : { data: [] };
+    const quarterlyPrices = quarterlyResponse.data.map((price) => ({
+      date: new Date(price[0]).toLocaleDateString(),
+      quarterly: price[4],
+    }));
+
+    const biquarterlyResponse = biquarterly
+      ? await axios.get(
+          `${BINANCE_API_URL}/klines?symbol=${biquarterly}&interval=${interval}&startTime=${startTime}&endTime=${endTime}`
+        )
+      : { data: [] };
+    const biquarterlyPrices = biquarterlyResponse.data.map((price) => ({
+      date: new Date(price[0]).toLocaleDateString(),
+      biquarterly: price[4],
+    }));
+
+    const combinedPrices = perpetualPrices.map((perpetualPrice, index) => ({
+      date: perpetualPrice.date,
+      perpetual: perpetualPrice.perpetual,
+      quarterly: quarterlyPrices[index] ? quarterlyPrices[index].quarterly : null,
+      biquarterly: biquarterlyPrices[index] ? biquarterlyPrices[index].biquarterly : null,
+    }));
+
+    return combinedPrices;
   } catch (error) {
     console.error('Error fetching historical prices:', error);
     return [];
