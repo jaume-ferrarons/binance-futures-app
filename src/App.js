@@ -3,7 +3,7 @@ import Dropdown from './components/Dropdown';
 import Plot from './components/Plot';
 import LoadingSpinner from './components/LoadingSpinner';
 import { fetchFutureContractPrices, fetchHistoricalPrices } from './api/binance';
-import { Button, Container, Typography, MenuItem, Select, FormControl, InputLabel, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import { Button, Container, Typography, MenuItem, Select, FormControl, InputLabel, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Grid } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
 
 const App = () => {
@@ -90,68 +90,74 @@ const App = () => {
           <MenuItem value="ETH">ETH</MenuItem>
         </Select>
       </FormControl>
-      <div className="table-container">
-        <Typography variant="h5" className="heading">Future Contract Prices</Typography>
-        <TableContainer component={Paper}>
-          <Table className="table">
-            <TableHead className="table-header">
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Contract Type</TableCell>
-                <TableCell className="table-cell">Price</TableCell>
-                <TableCell className="table-cell">Change (%)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Perpetual</TableCell>
-                <TableCell className="table-cell">{formatPrice(futurePrices.perpetual)}</TableCell>
-                <TableCell className="table-cell">-</TableCell>
-              </TableRow>
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Quarterly</TableCell>
-                <TableCell className="table-cell">{formatPrice(futurePrices.quarterly)}</TableCell>
-                <TableCell className="table-cell">{formatChange(futurePrices.quarterly, futurePrices.perpetual)}%</TableCell>
-              </TableRow>
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Biquarterly</TableCell>
-                <TableCell className="table-cell">{formatPrice(futurePrices.biquarterly)}</TableCell>
-                <TableCell className="table-cell">{formatChange(futurePrices.biquarterly, futurePrices.perpetual)}%</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
-      <div className="table-container">
-        <Typography variant="h5" className="heading">Spread</Typography>
-        <TableContainer component={Paper}>
-          <Table className="table">
-            <TableHead className="table-header">
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Spread Type</TableCell>
-                <TableCell className="table-cell">Value</TableCell>
-                <TableCell className="table-cell">Percentage (%)</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Perpetual - Quarterly</TableCell>
-                <TableCell className="table-cell">{formatPrice(computeSpread(futurePrices).perpetualQuarterly.value)}</TableCell>
-                <TableCell className="table-cell">{computeSpread(futurePrices).perpetualQuarterly.percentage.toFixed(2)}%</TableCell>
-              </TableRow>
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Perpetual - Biquarterly</TableCell>
-                <TableCell className="table-cell">{formatPrice(computeSpread(futurePrices).perpetualBiquarterly.value)}</TableCell>
-                <TableCell className="table-cell">{computeSpread(futurePrices).perpetualBiquarterly.percentage.toFixed(2)}%</TableCell>
-              </TableRow>
-              <TableRow className="table-row">
-                <TableCell className="table-cell">Quarterly - Biquarterly</TableCell>
-                <TableCell className="table-cell">{formatPrice(computeSpread(futurePrices).quarterlyBiquarterly.value)}</TableCell>
-                <TableCell className="table-cell">{computeSpread(futurePrices).quarterlyBiquarterly.percentage.toFixed(2)}%</TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+      <Grid container spacing={3} direction="row">
+        <Grid item xs={12} md={6}>
+          <div className="table-container">
+            <Typography variant="h5" className="heading">Future Contract Prices</Typography>
+            <TableContainer component={Paper}>
+              <Table className="table">
+                <TableHead className="table-header">
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Contract Type</TableCell>
+                    <TableCell className="table-cell">Price</TableCell>
+                    <TableCell className="table-cell">Change (%)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Perpetual</TableCell>
+                    <TableCell className="table-cell">{formatPrice(futurePrices.perpetual)}</TableCell>
+                    <TableCell className="table-cell">-</TableCell>
+                  </TableRow>
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Quarterly</TableCell>
+                    <TableCell className="table-cell">{formatPrice(futurePrices.quarterly)}</TableCell>
+                    <TableCell className="table-cell">{formatChange(futurePrices.quarterly, futurePrices.perpetual)}%</TableCell>
+                  </TableRow>
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Biquarterly</TableCell>
+                    <TableCell className="table-cell">{formatPrice(futurePrices.biquarterly)}</TableCell>
+                    <TableCell className="table-cell">{formatChange(futurePrices.biquarterly, futurePrices.perpetual)}%</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <div className="table-container">
+            <Typography variant="h5" className="heading">Spread</Typography>
+            <TableContainer component={Paper}>
+              <Table className="table">
+                <TableHead className="table-header">
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Spread Type</TableCell>
+                    <TableCell className="table-cell">Value</TableCell>
+                    <TableCell className="table-cell">Percentage (%)</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Perpetual - Quarterly</TableCell>
+                    <TableCell className="table-cell">{formatPrice(computeSpread(futurePrices).perpetualQuarterly.value)}</TableCell>
+                    <TableCell className="table-cell">{computeSpread(futurePrices).perpetualQuarterly.percentage.toFixed(2)}%</TableCell>
+                  </TableRow>
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Perpetual - Biquarterly</TableCell>
+                    <TableCell className="table-cell">{formatPrice(computeSpread(futurePrices).perpetualBiquarterly.value)}</TableCell>
+                    <TableCell className="table-cell">{computeSpread(futurePrices).perpetualBiquarterly.percentage.toFixed(2)}%</TableCell>
+                  </TableRow>
+                  <TableRow className="table-row">
+                    <TableCell className="table-cell">Quarterly - Biquarterly</TableCell>
+                    <TableCell className="table-cell">{formatPrice(computeSpread(futurePrices).quarterlyBiquarterly.value)}</TableCell>
+                    <TableCell className="table-cell">{computeSpread(futurePrices).quarterlyBiquarterly.percentage.toFixed(2)}%</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </Grid>
+      </Grid>
       <FormControl className="dropdown">
         <InputLabel>Days</InputLabel>
         <Select value={selectedDays} onChange={handleDaysChange}>
