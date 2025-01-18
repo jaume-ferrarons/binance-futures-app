@@ -17,6 +17,7 @@ This project is a web application built using React that connects to the Binance
 
 3. Start the development server:
    ```
+   export NODE_OPTIONS=--openssl-legacy-provider
    npm start
    ```
 
