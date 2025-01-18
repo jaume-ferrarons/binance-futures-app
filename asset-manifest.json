@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/%3Crepository-name%3E/static/css/main.81ead69a.chunk.css",
-    "main.js": "/%3Crepository-name%3E/static/js/main.0d084e6d.chunk.js",
-    "main.js.map": "/%3Crepository-name%3E/static/js/main.0d084e6d.chunk.js.map",
-    "runtime-main.js": "/%3Crepository-name%3E/static/js/runtime-main.c735ed63.js",
-    "runtime-main.js.map": "/%3Crepository-name%3E/static/js/runtime-main.c735ed63.js.map",
-    "static/js/2.01424dd5.chunk.js": "/%3Crepository-name%3E/static/js/2.01424dd5.chunk.js",
-    "static/js/2.01424dd5.chunk.js.map": "/%3Crepository-name%3E/static/js/2.01424dd5.chunk.js.map",
-    "index.html": "/%3Crepository-name%3E/index.html",
-    "static/css/main.81ead69a.chunk.css.map": "/%3Crepository-name%3E/static/css/main.81ead69a.chunk.css.map",
-    "static/js/2.01424dd5.chunk.js.LICENSE.txt": "/%3Crepository-name%3E/static/js/2.01424dd5.chunk.js.LICENSE.txt"
+    "main.css": "/binance-futures-app/static/css/main.81ead69a.chunk.css",
+    "main.js": "/binance-futures-app/static/js/main.0d084e6d.chunk.js",
+    "main.js.map": "/binance-futures-app/static/js/main.0d084e6d.chunk.js.map",
+    "runtime-main.js": "/binance-futures-app/static/js/runtime-main.afb44338.js",
+    "runtime-main.js.map": "/binance-futures-app/static/js/runtime-main.afb44338.js.map",
+    "static/js/2.01424dd5.chunk.js": "/binance-futures-app/static/js/2.01424dd5.chunk.js",
+    "static/js/2.01424dd5.chunk.js.map": "/binance-futures-app/static/js/2.01424dd5.chunk.js.map",
+    "index.html": "/binance-futures-app/index.html",
+    "static/css/main.81ead69a.chunk.css.map": "/binance-futures-app/static/css/main.81ead69a.chunk.css.map",
+    "static/js/2.01424dd5.chunk.js.LICENSE.txt": "/binance-futures-app/static/js/2.01424dd5.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.c735ed63.js",
+    "static/js/runtime-main.afb44338.js",
     "static/js/2.01424dd5.chunk.js",
     "static/css/main.81ead69a.chunk.css",
     "static/js/main.0d084e6d.chunk.js"
