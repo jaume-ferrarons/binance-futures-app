@@ -61,7 +61,7 @@ export const fetchHistoricalPrices = async (crypto, days, frequency) => {
       `${BINANCE_API_URL}/klines?symbol=${crypto}USDT&interval=${interval}&startTime=${startTime}&endTime=${endTime}`
     );
     const perpetualPrices = perpetualResponse.data.map((price) => ({
-      date: new Date(price[0]).toLocaleDateString(),
+      date: new Date(price[0]).toLocaleString(),
       perpetual: price[4],
     }));
 
@@ -73,7 +73,7 @@ export const fetchHistoricalPrices = async (crypto, days, frequency) => {
         )
       : { data: [] };
     const quarterlyPrices = quarterlyResponse.data.map((price) => ({
-      date: new Date(price[0]).toLocaleDateString(),
+      date: new Date(price[0]).toLocaleString(),
       quarterly: price[4],
     }));
 
@@ -83,7 +83,7 @@ export const fetchHistoricalPrices = async (crypto, days, frequency) => {
         )
       : { data: [] };
     const biquarterlyPrices = biquarterlyResponse.data.map((price) => ({
-      date: new Date(price[0]).toLocaleDateString(),
+      date: new Date(price[0]).toLocaleString(),
       biquarterly: price[4],
     }));
 
