@@ -1,13 +1,15 @@
 # Binance Futures Price Comparison Web App
 
+> ‼️ Most of this repo's code was written using [Copilot Workspace](https://copilot-workspace.githubnext.com/) to learn how it works.
+
 This project is a web application built using React that connects to the Binance API to get the price of BTC or ETH futures contracts. It compares the prices for perpetual, quarterly, and biquarterly futures, computes the spread between them, and plots the prices from the last n days (n to be selected from a dropdown).
 
 ## Setup and Installation
 
 1. Clone the repository:
    ```
-   git clone https://github.com/githubnext/workspace-blank.git
-   cd workspace-blank
+   git clone git@github.com:jaume-ferrarons/binance-futures-app.git
+   cd binance-futures-app
    ```
 
 2. Install the dependencies:
