@@ -87,12 +87,24 @@ export const fetchHistoricalPrices = async (crypto, days, frequency) => {
       biquarterly: price[4],
     }));
 
-    const combinedPrices = perpetualPrices.map((perpetualPrice, index) => ({
-      date: perpetualPrice.date,
-      perpetual: perpetualPrice.perpetual,
-      quarterly: quarterlyPrices[index] ? quarterlyPrices[index].quarterly : null,
-      biquarterly: biquarterlyPrices[index] ? biquarterlyPrices[index].biquarterly : null,
-    }));
+    const allDates = Array.from(new Set([
+      ...perpetualPrices.map((price) => price.date),
+      ...quarterlyPrices.map((price) => price.date),
+      ...biquarterlyPrices.map((price) => price.date),
+    ])).sort((a, b) => new Date(a) - new Date(b));
+
+    const combinedPrices = allDates.map((date) => {
+      const perpetualPrice = perpetualPrices.find((price) => price.date === date);
+      const quarterlyPrice = quarterlyPrices.find((price) => price.date === date);
+      const biquarterlyPrice = biquarterlyPrices.find((price) => price.date === date);
+
+      return {
+        date,
+        perpetual: perpetualPrice ? perpetualPrice.perpetual : null,
+        quarterly: quarterlyPrice ? quarterlyPrice.quarterly : null,
+        biquarterly: biquarterlyPrice ? biquarterlyPrice.biquarterly : null,
+      };
+    });
 
     return combinedPrices;
   } catch (error) {
