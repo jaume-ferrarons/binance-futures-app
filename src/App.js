@@ -13,6 +13,7 @@ const App = () => {
   const [selectedDays, setSelectedDays] = useState(7);
   const [selectedFrequency, setSelectedFrequency] = useState('1d');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpread, setIsSpread] = useState(false);
 
   const handleCryptoChange = (event) => {
     setSelectedCrypto(event.target.value);
@@ -168,7 +169,10 @@ const App = () => {
           <MenuItem value="1d">1d</MenuItem>
         </Select>
       </FormControl>
-      {isLoading ? <LoadingSpinner /> : <Plot historicalPrices={historicalPrices} selectedCrypto={selectedCrypto} />}
+      <Button variant="contained" color="primary" onClick={() => setIsSpread(!isSpread)}>
+        {isSpread ? 'Show Prices' : 'Show Spread %'}
+      </Button>
+      {isLoading ? <LoadingSpinner /> : <Plot historicalPrices={historicalPrices} selectedCrypto={selectedCrypto} isSpread={isSpread} />}
     </Container>
   );
 };
